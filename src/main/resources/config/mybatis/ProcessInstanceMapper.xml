@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yundao.workflow.mapper.ProcessInstanceMapper">
+
+
+	<resultMap id="processBusinessDto"
+		type="com.yundao.workflow.dto.processInstance.ProcessBusinessDto">
+		<result column="PROC_INST_ID_" property="processInstanceId" />
+		<result column="BUSINESS_KEY_" property="businessKey" />
+		<result column="START_TIME_" property="startTime" />
+	</resultMap>
+	
+	
+	<select id="getBusinessKey" resultType="java.lang.String">
+	SELECT
+	    p.BUSINESS_KEY_
+	FROM
+		act_hi_taskinst t
+	LEFT JOIN act_hi_procinst p ON t.PROC_INST_ID_ = p.PROC_INST_ID_
+	WHERE
+		t.TENANT_ID_ =  #{tenantId}
+	AND t.ID_ = #{taskId}
+	</select>
+	
+	
+	<select id="getProcessBusinessDtos" resultMap="processBusinessDto">
+		SELECT
+			p.PROC_DEF_ID_,
+			p.PROC_INST_ID_,
+			p.BUSINESS_KEY_,
+			p.START_TIME_
+		FROM
+			act_hi_procinst p
+		WHERE
+			p.PROC_INST_ID_ IN
+			 <foreach close=")" collection="processInstanceIds" item="processInstanceId" open="(" separator=",">
+	           #{processInstanceId}
+	         </foreach>
+	</select>
+    
+</mapper>

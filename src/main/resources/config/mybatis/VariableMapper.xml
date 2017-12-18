@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yundao.workflow.mapper.VariableMapper">
+
+
+	<resultMap id="applyUserVariableDto"
+		type="com.yundao.workflow.dto.varinst.ApplyUserVariableDto">
+		<result column="PROC_INST_ID_" property="processInstanceId" />
+		<result column="LONG_" property="applyUserId" />
+	</resultMap>
+	
+	
+	
+	<resultMap id="taskAuditApplyDto"
+		type="com.yundao.workflow.dto.task.audit.TaskAuditApplyDto">
+		<result column="ID_" property="taskId" />
+		<result column="PROC_DEF_ID_" property="processDefinitionId" />
+		<result column="TASK_DEF_KEY_" property="taskDefinitionKey" />
+		<result column="LONG_" property="applyUserId" />
+		<result column="CREATE_TIME_" property="applyTime" />
+	</resultMap>
+	
+	
+	
+	
+	<select id="getInstanceApplyUserId" resultType="long">
+		SELECT
+			v.LONG_
+		FROM
+			act_hi_varinst v
+		WHERE
+			v.PROC_INST_ID_ = #{instanceId}
+		AND v.NAME_ = 'applyUserId'
+		LIMIT 1
+	</select>
+	
+	
+	
+	<select id="getTaskAuditApplyDto" resultMap="taskAuditApplyDto">
+		SELECT
+			t.ID_,
+			t.PROC_DEF_ID_,
+			t.TASK_DEF_KEY_,
+			v.NAME_,
+			v.LONG_,
+			v.CREATE_TIME_
+		FROM
+			act_ru_task t
+		LEFT JOIN act_hi_varinst v ON t.PROC_INST_ID_ = v.PROC_INST_ID_
+		WHERE
+			t.ID_ =  #{taskId}
+		AND v.NAME_ = 'applyUserId'
+		AND t.TENANT_ID_ = #{tenantId}
+		LIMIT 1
+	</select>
+	
+	
+	
+	
+	<select id="getApplyUserVariableDto" resultMap="applyUserVariableDto">
+		SELECT
+			t.PROC_INST_ID_,
+			t.LONG_
+		FROM
+			act_hi_varinst t
+		WHERE
+			t.NAME_ = 'applyUserId'
+		AND t.PROC_INST_ID_ IN
+			 <foreach close=")" collection="processInstanceIds" item="processInstanceId" open="(" separator=",">
+	           #{processInstanceId}
+	         </foreach>
+	</select>
+    
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yundao.workflow.mapper.HistoryCateoryMapper">
+
+<update id="updateHistoryTask">
+    update act_hi_taskinst set CATEGORY_ = #{cateory} where CATEGORY_ is null and TENANT_ID_ =#{tenantId} and TASK_DEF_KEY_ like CONCAT('%', #{cateory},'%');
+</update>
+
+
+<update id="updateRunTask">
+    update act_ru_task set CATEGORY_ = #{cateory} where CATEGORY_ is null and  TENANT_ID_ =#{tenantId} and TASK_DEF_KEY_ like CONCAT('%', #{cateory},'%');
+</update>
+    
+</mapper>

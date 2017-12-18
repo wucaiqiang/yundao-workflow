@@ -1,0 +1,4 @@
+        // 产品上线申请：[{"taskDefinitionKey":"product_audit_apply","actionValues":[1,2,3]},{"taskDefinitionKey":"product_reject_edit","actionValues":[4,3]}]
+    	// 预约审核：[{"taskDefinitionKey":"product_reservation_audit","actionValues":[1,2,3]},{"taskDefinitionKey":"product_reservation_reject_edit","actionValues":[4,3]}]
+    	// 报单审核：[{"taskDefinitionKey":"declaration_audit","actionValues":[1,2,3]},{"taskDefinitionKey":"declaration_reject_edit","actionValues":[4,3]}]
+    	// 产品公告审核：[{"taskDefinitionKey":"product_notice_audit","actionValues":[1,2,3]},{"taskDefinitionKey":"product_notice_reject_edit","actionValues":[4,3]}]
